@@ -15,8 +15,10 @@ const flash = require('connect-flash');
 const validator = require('express-validator');
 const MongoStore = require('connect-mongo')(session);
 const seedData = require('./seed/product-seeder');
+const dotenv = require('dotenv');
+dotenv.config();
 
-mongoose.connect("mongodb+srv://vercel-admin-user:QkFv0Usb0jQLTZjC@cluster0.43cr434.mongodb.net/shopping_cart?retryWrites=true&w=majority");
+mongoose.connect(process.env.DB_URL);
 require('./config/passport');
 seedData();
 

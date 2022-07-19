@@ -6,13 +6,14 @@ const Order = require("../models/order");
 const Product = require("../models/product");
 
 /* GET home page. */
-router.get("/", (req, res, next) => {
+router.get("/", async (req, res, next) => {
   const successMsg = req.flash("success")[0];
-  Product.find((err, docs) => {
+  try {
+    const items = await Product.find();
     let productChunks = [];
     const chunkSize = 3;
-    for (let i = 0; i < docs.length; i += chunkSize) {
-      productChunks.push(docs.slice(i, i + chunkSize));
+    for (let i = 0; i < items.length; i += chunkSize) {
+      productChunks.push(items.slice(i, i + chunkSize));
     }
     res.render("shop/index", {
       title: "Shopping Cart",
@@ -20,22 +21,23 @@ router.get("/", (req, res, next) => {
       successMsg: successMsg,
       noMessages: !successMsg,
     });
-  });
+  } catch (err) {
+    console.log(err);
+  }
 });
 
-router.get("/add-to-cart/:id", (req, res, next) => {
+router.get("/add-to-cart/:id", async (req, res, next) => {
   const productId = req.params.id;
   const cart = new Cart(req.session.cart ? req.session.cart : {});
-
-  Product.findById(productId, (err, product) => {
-    if (err) {
-      return res.redirect("/");
-    }
+  try {
+    const product = Product.findById(productId);
     cart.add(product, product.id);
     req.session.cart = cart;
     console.log(req.session.cart);
     res.redirect("/");
-  });
+  } catch (err) {
+    console.log(err);
+  }
 });
 
 router.get("/reduce/:id", (req, res, next) => {
@@ -80,22 +82,26 @@ router.get("/checkout", isLoggedIn, function (req, res, next) {
   });
 });
 
-router.post("/checkout", isLoggedIn, function (req, res, next) {
-  if (!req.session.cart) {
-    return res.redirect("shop/shopping-cart");
+router.post("/checkout", isLoggedIn, async (req, res, next) => {
+  try {
+    if (!req.session.cart) {
+      return res.redirect("shop/shopping-cart");
+    }
+    const cart = new Cart(req.session.cart);
+    const order = new Order({
+      user: req.user,
+      cart: cart,
+      address: req.body.address,
+      name: req.body.name,
+    });
+    order.save((err, result) => {
+      req.flash("success", "Successfully bought product!");
+      req.session.cart = null;
+      res.redirect("/");
+    });
+  } catch (err) {
+    console.log(err);
   }
-  const cart = new Cart(req.session.cart);
-  const order = new Order({
-    user: req.user,
-    cart: cart,
-    address: req.body.address,
-    name: req.body.name,
-  });
-  order.save((err, result) => {
-    req.flash("success", "Successfully bought product!");
-    req.session.cart = null;
-    res.redirect("/");
-  });
 });
 module.exports = router;
 

@@ -1,10 +1,10 @@
 const mongoose = require("mongoose");
 const Product = require("../models/product");
 const { faker } = require("@faker-js/faker");
+const dotenv = require('dotenv');
+dotenv.config();
 
-mongoose.connect(
-  "mongodb+srv://vercel-admin-user:QkFv0Usb0jQLTZjC@cluster0.43cr434.mongodb.net/shopping_cart?retryWrites=true&w=majority"
-);
+mongoose.connect(process.env.DB_URL);
 
 const deleteData = () => {
   Product.deleteMany({})
