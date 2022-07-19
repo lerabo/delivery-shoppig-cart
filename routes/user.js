@@ -1,12 +1,12 @@
-var express = require("express");
-var router = express.Router();
-var csrf = require("csurf");
-var passport = require("passport");
+const express = require("express");
+const router = express.Router();
+const csrf = require("csurf");
+const passport = require("passport");
 
-var Cart = require("../models/cart");
-var Order = require("../models/order");
+const Cart = require("../models/cart");
+const Order = require("../models/order");
 
-var csrfProtection = csrf();
+const csrfProtection = csrf();
 router.use(csrfProtection);
 
 router.get('/profile', isLoggedIn, (req, res, next) => {
@@ -37,7 +37,7 @@ router.use("/", notLoggedIn, function (req, res, next) {
 });
 
 router.get("/signup", function (req, res, next) {
-  var messages = req.flash("error");
+  let messages = req.flash("error");
   res.render("user/signup", {
     csrfToken: req.csrfToken(),
     messages: messages,
@@ -53,7 +53,7 @@ router.post(
   }),
   (req, res, next) => {
     if (req.session.oldUrl) {
-      var oldUrl = req.session.oldUrl;
+      const oldUrl = req.session.oldUrl;
       req.session.oldUrl = null;
       res.redirect(oldUrl);
     } else {
@@ -63,7 +63,7 @@ router.post(
 );
 
 router.get("/signin", function (req, res, next) {
-  var messages = req.flash("error");
+  let messages = req.flash("error");
   res.render("user/signin", {
     csrfToken: req.csrfToken(),
     messages: messages,

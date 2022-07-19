@@ -1,9 +1,9 @@
-var express = require("express");
-var router = express.Router();
-var Cart = require("../models/cart");
-var Order = require("../models/order");
+const express = require("express");
+const router = express.Router();
+const Cart = require("../models/cart");
+const Order = require("../models/order");
 
-var Product = require("../models/product");
+const Product = require("../models/product");
 
 /* GET home page. */
 router.get("/", (req, res, next) => {
@@ -60,7 +60,7 @@ router.get("/shopping-cart", function (req, res, next) {
   if (!req.session.cart) {
     return res.render("shop/shopping-cart", { products: null });
   }
-  var cart = new Cart(req.session.cart);
+  const cart = new Cart(req.session.cart);
   return res.render("shop/shopping-cart", {
     products: cart.generateArray(),
     totalPrice: cart.totalPrice,
@@ -71,7 +71,7 @@ router.get("/checkout", isLoggedIn, function (req, res, next) {
   if (!req.session.cart) {
     return res.redirect("shop/shopping-cart");
   }
-  var cart = new Cart(req.session.cart);
+  const cart = new Cart(req.session.cart);
   const errMsg = req.flash('error')[0];
   res.render("shop/checkout", { total: cart.totalPrice,errMsg: errMsg, noError: !errMsg, });
 });
@@ -80,7 +80,7 @@ router.post("/checkout", isLoggedIn, function (req, res, next) {
   if (!req.session.cart) {
     return res.redirect("shop/shopping-cart");
   }
-  var cart = new Cart(req.session.cart);
+  const cart = new Cart(req.session.cart);
   const order = new Order({
     user: req.user,
     cart: cart,
