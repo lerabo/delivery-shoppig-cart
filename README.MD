@@ -1,3 +1,18 @@
-## Tutorial on How to Build a Shopping Cart with NodeJS/ Express
+How to Build a Shopping Cart with NodeJS/ Express
 
-This repository holds the source code of my YouTube series on how to create a shopping cart with NodeJS/Express/MongoDB
+## Getting Started
+To get you started you can simply clone the repository:
+
+```
+git clone git@github.com:lerabo/delivery-shopping-cart.git
+```
+and install the dependencies
+```
+npm install
+```
+
+### Run the Application
+
+The project is preconfigured with a simple development web server. The simplest way to start this server is:
+
+    npm start
