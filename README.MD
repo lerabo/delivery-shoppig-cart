@@ -10,6 +10,9 @@ and install the dependencies
 ```
 npm install
 ```
+install dotenv to have access to variables
+```
+npm install dotenv --save
 
 ### Run the Application
 
