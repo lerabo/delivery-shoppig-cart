@@ -9,17 +9,17 @@ const Order = require("../models/order");
 const csrfProtection = csrf();
 router.use(csrfProtection);
 
-router.get('/profile', isLoggedIn, (req, res, next) => {
+router.get("/profile", isLoggedIn, (req, res, next) => {
   Order.find({ user: req.user }, (err, orders) => {
     if (err) {
-      return res.write('Error!');
+      return res.write("Error!");
     }
     orders.forEach((order) => {
       const cart = new Cart(order.cart);
       order.items = cart.generateArray();
     });
     console.log(orders);
-    res.render('user/profile', { orders: orders });
+    res.render("user/profile", { orders: orders });
   });
 });
 
