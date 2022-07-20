@@ -14,6 +14,8 @@ install dotenv to have access to variables
 ```
 npm install dotenv --save
 ```
+Create an `.env` file locally. You can duplicate `.env.example` and name the new copy `.env`. Adapt the variables to your needs.
+```
 
 ### Run the Application
 
