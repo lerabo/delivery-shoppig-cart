@@ -1,10 +1,7 @@
 const mongoose = require("mongoose");
 const Product = require("../models/product");
 const { faker } = require("@faker-js/faker");
-const dotenv = require('dotenv');
-dotenv.config();
 
-mongoose.connect(process.env.DB_URL);
 
 const deleteData = () => {
   Product.deleteMany({})
