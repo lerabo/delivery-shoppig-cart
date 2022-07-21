@@ -15,10 +15,9 @@ const flash = require('connect-flash');
 const validator = require('express-validator');
 const MongoStore = require('connect-mongo')(session);
 const seedData = require('./seed/product-seeder');
-const dotenv = require('dotenv');
-dotenv.config();
+require("dotenv").config();
 
-mongoose.connect(process.env.DB_URL);
+mongoose.connect(process.env.DB_URL); 
 require('./config/passport');
 seedData();
 

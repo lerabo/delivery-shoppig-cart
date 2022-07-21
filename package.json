@@ -29,5 +29,18 @@
   "devDependencies": {
     "@faker-js/faker": "^7.3.0",
     "@types/node": "^18.0.6"
-  }
+  },
+  "description": "How to Build a Shopping Cart with NodeJS/ Express",
+  "main": "app.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lerabo/delivery-shoppig-cart.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lerabo/delivery-shoppig-cart/issues"
+  },
+  "homepage": "https://github.com/lerabo/delivery-shoppig-cart#readme"
 }
