@@ -10,3 +10,38 @@
     font-weight: bold;
     font-size: 16px;
 }
+
+.details-wrapper {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+    margin-top : 20px;
+	margin-bottom: 15px;
+	width: 100px;
+	align:left;
+}
+
+.items {
+	font-family: 'Merriweather', serif;
+	background:  rgb(218, 236, 241);
+	color: black;
+	border-radius: 8px;
+	width: 2000px;
+	display: flex;
+	font-size: 18px;
+	height: 30px;
+	overflow: hidden;
+	text-align: center;
+}
+
+.items__control {
+	width: 100px;
+	cursor: pointer;
+	transition: 0.2s ease-in;
+	text-align: center;
+}
+
+.items__control:hover {
+    background:rgb(255, 0, 111);
+    color: rgb(243, 226, 129);
+}

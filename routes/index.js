@@ -8,6 +8,7 @@ const Product = require("../models/product");
 /* GET home page. */
 router.get("/", async (req, res, next) => {
   const successMsg = req.flash("success")[0];
+  const errorMsg = req.flash("error")[0];
   try {
     const items = await Product.find();
     let productChunks = [];
@@ -19,6 +20,8 @@ router.get("/", async (req, res, next) => {
       title: "Shopping Cart",
       products: productChunks,
       successMsg: successMsg,
+      errorMsg: errorMsg,
+      noError: !errorMsg,
       noMessages: !successMsg,
     });
   } catch (err) {
@@ -34,10 +37,26 @@ router.get("/add-to-cart/:id", (req, res, next) => {
     if (err) {
       return res.redirect("/");
     }
-    cart.add(product, product.id);
-    req.session.cart = cart;
-    console.log(req.session.cart);
-    res.redirect("/");
+    if (cart.totalPrice === 0) {
+      cart.add(product, product.id);
+      req.session.cart = cart;
+      console.log(req.session.cart);
+      res.redirect("/");
+    } else if (cart.totalPrice > 0 && cart.shopName === product.shop) {
+      cart.add(product, product.id);
+      req.session.cart = cart;
+      console.log(req.session.cart);
+      res.redirect("/");
+    } else {
+      req.flash(
+        "error",
+        `You can not order items from different shops. Please, order in ${cart.shopName}`
+      );
+      console.log(
+        `You can not order items from different shops. Please, order in ${cart.shopName}`
+      );
+      res.redirect("/");
+    }
   });
 });
 
@@ -50,11 +69,11 @@ router.get("/reduce/:id", (req, res, next) => {
   res.redirect("/shopping-cart");
 });
 
-router.get("/remove/:id", (req, res, next) => {
+router.get("/increase/:id", (req, res, next) => {
   const productId = req.params.id;
   const cart = new Cart(req.session.cart ? req.session.cart : {});
 
-  cart.removeItem(productId);
+  cart.increaseItem(productId);
   req.session.cart = cart;
   res.redirect("/shopping-cart");
 });
@@ -95,11 +114,11 @@ router.post("/checkout", isLoggedIn, function (req, res, next) {
     name: req.body.name,
   });
   order.save();
-    req.flash("success", "Successfully bought product!");
-    req.session.cart = null;
-    res.redirect("/");
-  });
-  
+  req.flash("success", "Successfully bought product!");
+  req.session.cart = null;
+  res.redirect("/");
+});
+
 module.exports = router;
 
 function isLoggedIn(req, res, next) {

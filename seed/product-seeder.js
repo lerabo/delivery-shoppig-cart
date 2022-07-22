@@ -2,16 +2,16 @@ const mongoose = require("mongoose");
 const Product = require("../models/product");
 const { faker } = require("@faker-js/faker");
 
-
-const deleteData = () => {
+function deleteData() {
   Product.deleteMany({})
     .then(function () {
       console.log("Data deleted"); // Success
+      mongoose.disconnect();
     })
     .catch(function (error) {
       console.log(error); // Failure
     });
-};
+}
 
 async function seedData() {
   try {
@@ -24,6 +24,7 @@ async function seedData() {
           title: faker.commerce.productName(),
           description: faker.commerce.productDescription(),
           price: faker.commerce.price(10, 90, 0),
+          shop: faker.random.arrayElement(['McDonalds', 'Donats', 'Sweeties', 'Vegetables']),
         });
         products.push(item);
       }
