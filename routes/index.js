@@ -52,9 +52,6 @@ router.get("/add-to-cart/:id", (req, res, next) => {
         "error",
         `You can not order items from different shops. Please, order in ${cart.shopName}`
       );
-      console.log(
-        `You can not order items from different shops. Please, order in ${cart.shopName}`
-      );
       res.redirect("/");
     }
   });

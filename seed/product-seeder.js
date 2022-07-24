@@ -24,21 +24,12 @@ async function seedData() {
           title: faker.commerce.productName(),
           description: faker.commerce.productDescription(),
           price: faker.commerce.price(10, 90, 0),
-          shop: faker.random.arrayElement(['McDonalds', 'Donats', 'Sweeties', 'Vegetables']),
+          shop: faker.helpers.arrayElement(['McDonalds', 'Donats', 'Sweeties', 'Vegetables']),
         });
         products.push(item);
       }
+      Product.insertMany(products);
       console.log("seedData!");
-
-      let done = 0;
-      for (let i = 0; i < products.length; i++) {
-        products[i].save(() => {
-          done++;
-          if (done === products.length) {
-            mongoose.disconnect();
-          }
-        });
-      }
     }
   } catch (err) {
     console.log(err);
