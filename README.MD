@@ -9,6 +9,7 @@ git clone git@github.com:lerabo/delivery-shopping-cart.git
 and install the dependencies
 ```
 npm install
+npm i express
 ```
 install dotenv to have access to variables
 ```
